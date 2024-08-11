@@ -153,9 +153,14 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
 }
 
 function ScreenController() {
-    const game = GameController();
+    let playerOneName = "";
+    let playerTwoName = "";
+    let game = null;
     const playerTurnDiv = document.querySelector('.turn');
     const boardDiv =  document.querySelector('.board');
+    const outcomeDiv = document.querySelector('.outcome');
+    const startButton = document.querySelector('.start');
+    const resetButton = document.querySelector('.reset');
     let gameEnd = false;
 
     const updateScreen = () => {
@@ -193,21 +198,36 @@ function ScreenController() {
         updateScreen();
         if (outcome === "Win") {
             gameEnd = true;
-            playerTurnDiv.textContent = `${game.getActivePlayer().name} Wins!`;
+            outcomeDiv.textContent = `${game.getActivePlayer().name} Wins!`;
         } else if (outcome === "Tie") {
             gameEnd = true;
-            playerTurnDiv.textContent = `Tie Game!`;
+            outcomeDiv.textContent = `Tie Game!`;
         }
         
     }
     boardDiv.addEventListener("click", clickHandlerBoard);
-    
-    updateScreen();
+
+    function startHandlerButton() {
+        playerOneName = document.querySelector("#playerOne").value;
+        playerTwoName = document.querySelector("#playerTwo").value;
+
+        if (playerOneName.length == 0 || playerOneName.length == 0) return;
+
+        game = GameController(playerOneName, playerTwoName);
+        updateScreen();
+    }
+    startButton.addEventListener("click", startHandlerButton);
+
+    function resetHandlerButton() {
+        if (playerOneName.length == 0 || playerOneName.length == 0) return;
+
+        game = GameController(playerOneName, playerTwoName);
+        updateScreen();
+    }
+    resetButton.addEventListener("click", resetHandlerButton);
 }
 
 ScreenController();
-
-
 
 
 
